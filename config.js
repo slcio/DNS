@@ -1,20 +1,11 @@
 var domains = [
     {
-        domain: 'ad.ec61.com',
-        ip:'255.255.255.255'
+        domain: 'www.google.com',
+        ip:'8.8.8.8'
     },
-
-    {
-        domain: 'v.youku.com',
-        ip:'255.255.255.255',
-    },
-    {
-       domain: 'vpn.nogfw.com',
-      ip:'127.0.0.1',
- }
 ];
 var config = {
-    DNSADDRESS: '114.114.114.114',
+    DNSADDRESS: '8.8.8.8',
     DNSPORT: '53',
     hostname: '0.0.0.0',
     port: 53,

@@ -5,15 +5,15 @@ const DNSADDRESS = config.DNSADDRESS;
 const DNSPORT = config.DNSPORT;
 console.log("DNS Server: " + DNSADDRESS + ":" + DNSPORT);
 
-//加载白名单
+//loder white list
 var whiteList = [];
 config.domains.forEach(function (domain) {
     whiteList[domainToHex(domain.domain).toString('hex')] = domain.ip;
 });
 
-//开启进程
+//start master process
 if (isMaster) {
-    // 启动子进程
+    // start worker process
     if (config.worker_processes !== undefined) {
          workerProcesses = parseInt(config.worker_processes, 10);
     } else {
@@ -22,7 +22,7 @@ if (isMaster) {
     for (var i = 0; i < workerProcesses; i++) {
           cluster.fork();
     }
-    console.log('服务进程已启动, 子进程数 ' + workerProcesses);
+    console.log('start master process, workerProcesses: ' + workerProcesses);
 } else {
     dgram.createSocket("udp4", function (msg, rinfo) {
         var server = this;
@@ -33,12 +33,12 @@ if (isMaster) {
         var tid = 0, buf = null;
         client.on("message", function (msg, rinfo) {
             var domain = getDomain(msg);
-            //匹配白名单
+            //check white list
             if (whiteList[domain]){
-                //匹配到要修改ip
+                //changeip
                 msg = changeIp(msg, domain);
             }
-            //将信息返回
+            //sending
             buf = msg;
             if (tid) clearTimeout(tid);
             tid = setTimeout(function () {
